@@ -4,6 +4,8 @@
     <author>Stefan Herzog</author>
     <version>0.0.1</version>
     <description>Aktuelle Tabelle der jeweiligen Spielklasse</description>
+
+    <scriptfile>script.php</scriptfile>
     <files>
         <filename>mod_tvo_aktuelle_tabelle.xml</filename>
         <filename module="mod_tvo_aktuelle_tabelle">mod_tvo_aktuelle_tabelle.php</filename>
