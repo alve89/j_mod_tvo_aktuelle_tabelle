@@ -65,6 +65,6 @@
 		</fields>
     </config>
 	<updateservers>
-	   <server type="extension" priority="1" name="mod_tvo_aktuelle_tabelle_update_server">https://github.com/alve89/j_mod_tvo_aktuelle_tabelle/updates.xml</server>
+	   <server type="extension" priority="1" name="mod_tvo_aktuelle_tabelle_update_server">https://raw.githubusercontent.com/alve89/j_mod_tvo_aktuelle_tabelle/master/updates.xml</server>
   </updateservers>
 </extension>
