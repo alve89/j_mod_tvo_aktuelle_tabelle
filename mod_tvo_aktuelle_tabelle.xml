@@ -2,7 +2,7 @@
 <extension type="module" version="3.5" client="site" method="upgrade">
     <name>TVO Aktuelle Tabelle</name>
     <author>Stefan Herzog</author>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <description>Aktuelle Tabelle der jeweiligen Spielklasse</description>
 
     <scriptfile>script.php</scriptfile>
