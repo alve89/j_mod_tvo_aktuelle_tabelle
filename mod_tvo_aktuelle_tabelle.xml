@@ -2,7 +2,7 @@
 <extension type="module" version="3.5" client="site" method="upgrade">
     <name>TVO Aktuelle Tabelle</name>
     <author>Stefan Herzog</author>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <description>Aktuelle Tabelle der jeweiligen Spielklasse</description>
 
     <scriptfile>script.php</scriptfile>
@@ -19,6 +19,15 @@
 		<fields name="params"
             addfieldpath="/administrator/components/com_tvo/models/fields">
   	    <fieldset name="basic">
+
+          <field
+            name="header"
+            type="textarea"
+            label="Header for this module"
+            description="HTML tags are allowed"
+            default=""
+            filter="raw"
+            />
 
         <field name="seasonStatusSelector" type="radio" default="1" label="Aktueller Stand der Saison?" description="">
 					<option value="1">Saison läuft noch</option>
@@ -50,16 +59,24 @@
 				/>
         <field name="columns" type="checkboxes" label="Was soll eingeblendet werden?" description="Choose columns to be displayed in the table" required="true">
             <option value="league">Liga (als Überschrift)</option>
-            <option value="lastUpdated">Letzte Aktualisierung</option>
-            <option value="score">Platzierung</option>
-            <option value="teamname">Mannschaftsname</option>
-            <option value="gamesPlayed">Spiele bestritten</option>
+            <option value="lastUpdated" default="checked">Letzte Aktualisierung</option>
+            <option value="score" default="checked">Platzierung</option>
+            <option value="teamname" default="checked">Mannschaft</option>
+            <option value="gamesPlayed" default="checked">Spiele bestritten</option>
 				    <option value="gamesWon">Spiele gewonnen</option>
 				    <option value="gamesEqual">Spiele unentschieden</option>
 				    <option value="gamesLost">Spiele verloren</option>
-				    <option value="points">Punkte</option>
-				    <option value="goals">Torverhältnis</option>
+				    <option value="points" default="checked">Punkte</option>
+				    <option value="goals" default="checked">Torverhältnis</option>
 				</field>
+        <field
+          name="disclaimer"
+          type="textarea"
+          label="Haftungsausschluss"
+          description="Benutzerdefinierter Haftungsausschluss für die Richtigkeit der angezeigten Ergebnisse"
+          default="Die angezeigten Ergebnisse werden direkt von der Schnittstelle des Badischen Handballverbandes geladen. Aus diesem Grund übernehmen wir für die Richtigkeit der Ergebnisse keine Haftung."
+          />
+
 			</fieldset>
 
 		</fields>

@@ -7,26 +7,26 @@ require_once(Joomla\CMS\Uri\Uri::root() . 'modules' . DS . $module->module . DS 
 //ModTvoAktuelletabelleHelper::varDump($tableData);
 
 
-
+echo $params->get('header');
 
 if( $contentToDisplay['league'] ) {
 ?>
 <span id="league">
-	<h3><?=str_replace('/ ', '', $tableData->lvTypeLabelStr);?></h3>
+	<h4><?=$team->teamLeague;?></h4>
 </span>
 <?php
 }
 
 if( $contentToDisplay['lastUpdated'] ) {
-?>
-<span class="StandLetzteAenderung">Letzte Aktualisierung: <?=date("d.m.Y, H:i", $lastUpdated) . " Uhr";?></span>
-<?php
+	?>
+	<span class="StandLetzteAenderung" style="font-size: 10px">Letzte Aktualisierung: <?=date("d.m.Y, H:i", $lastUpdated) . " Uhr";?></span>
+	<?php
 }
 ?>
 
 
 
-<table class="table_tabelle <?=$params->get('moduleclass_sfx');?>">
+<table class="table_tabelle <?=$params->get('moduleclass_sfx');?>" style="font-size: 12px">
   <tr>
     <?php
     if( $contentToDisplay['score'] )        { ?><th>Platzierung</th><?php }
@@ -43,32 +43,31 @@ if( $contentToDisplay['lastUpdated'] ) {
 		{
 			?>
 			<tr style="font-weight: <?= (strpos($team->tabTeamname, 'Oberflockenbach') !== false) ? ('bold') : ('normal');?>">
-				<td><?=$team->tabScore;?></td>
-				<td><?=$team->tabTeamname;?></td>
-        <td><?=$team->numWonGames + $team->numEqualGames + $team->numLostGames;?> (<?=$team->numWonGames;?>/<?=$team->numEqualGames;?>/<?=$team->numLostGames;?>)</td>
-				<td><?=$team->pointsPlus;?> : <?=$team->pointsMinus;?></td>
-				<td><?=$team->numGoalsShot;?> : <?=$team->numGoalsGot;?></td>
+				<?php
+				if($contentToDisplay['score']) { ?>
+					<td><?=$team->tabScore;?></td>
+				<?php }
 
+				if($contentToDisplay['teamname']) { ?>
+					<td><?=$team->tabTeamname;?></td>
+				<?php }
+
+				if($contentToDisplay['gamesPlayed']) { ?>
+					<td><?=$team->numWonGames + $team->numEqualGames + $team->numLostGames;?> (<?=$team->numWonGames;?>/<?=$team->numEqualGames;?>/<?=$team->numLostGames;?>)</td>
+				<?php }
+
+				if($contentToDisplay['points']) { ?>
+					<td><?=$team->pointsPlus;?> : <?=$team->pointsMinus;?></td>
+				<?php }
+
+				if($contentToDisplay['goals']) { ?>
+					<td><?=$team->numGoalsShot;?> : <?=$team->numGoalsGot;?></td>
+				<?php }
+				?>
 			</tr>
 			<?php
 		}
 	?>
 
 </table>
-
-
-
-
-
-
-
-
-
-<?php
-// Code für Komponente
-//
-//
-//
-//
-// Daten von Schnittstelle => muss in Tabelle eingelesen werden
-//ModTvoAktuelletabelleHelper::varDump(ModTvoAktuelletabelleHelper::getTable(68361));
+<span style="font-size: 10px; line-height: 6px"><?=$params->get('disclaimer');?></span>

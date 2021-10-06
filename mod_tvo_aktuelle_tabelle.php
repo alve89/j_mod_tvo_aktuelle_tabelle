@@ -50,7 +50,7 @@ if( !$tablesNotFound ) {
     // Lade Spieldaten von gewählten Teams
     $db    = JFactory::getDBO();
     $query = $db->getQuery(true);
-		$query->select(array('a.teamTableId', 'b.teamTableId', 'b.tablesData', 'b.lastUpdated', 'a.teamName'));
+		$query->select(array('a.teamTableId', 'b.teamTableId', 'b.tablesData', 'b.lastUpdated', 'a.teamName', 'a.teamLeague'));
 	  $query->from($db->quoteName('#__tvo_teams', 'a'));
 	  $query->join('RIGHT', $db->quoteName('#__tvo_tables', 'b') . ' ON ' . $db->quoteName('a.teamTableId') . ' = ' . $db->quoteName('b.teamTableId'));
 		$query->where('a.published = 1');
@@ -59,7 +59,7 @@ if( !$tablesNotFound ) {
     $team = $db->loadObject();
 		$tableData = json_decode($team->tablesData)[0];
 
-			//ModTvoAktuelletabelleHelper::varDump($tableData);
+			//ModTvoAktuelletabelleHelper::varDump($team->tablesData);
   }
   else {
     // Es wurden keine Spiele gefunden
@@ -73,7 +73,8 @@ if( !$tablesNotFound ) {
     $lastUpdated = strtotime($team->lastUpdated);
   }
 
-}
+
+} // if $tablesNotFound
 
 // ####################################### Prüfe alle Voraussetzungen und starte Rendering #######################################
 

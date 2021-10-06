@@ -1,155 +1,72 @@
 <?php
-class ModTvoAktuelletabelleHelper
-{
-	/*
-		STEPS:
-		1. Abfrage der aktuellen API-Adresse
 
-		2. Abfrage der aktuellen Mannschafts-ID
+class ModTvoAktuelletabelleHelper {
 
-		3. Abfrage der Tabelle mit Hilfe der ID
-
-	*/
-
-	static $url = "";
-
-
-
-/********************* Abfrage API Adresse **********************/
-
+	// Retrieve the current API URL
 	public static function getCurrentUrl()
   {
-		return 'https://api.h4a.mobi/spo/spo-proxy_public.php';
-
-		// create curl ressource
-    $ch = curl_init();
-
-    // set url
-    curl_setopt($ch, CURLOPT_URL, "https://api.handball4all.de/url/spo_vereine-01.php");
-
-    //return the transfer as a string
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-    // $output contains the output string
-    $output = curl_exec($ch);
-
-    // close curl resource to free up system resources
-    curl_close($ch);
-		// Return the result
-		return $output;
+		return "https://api.h4a.mobi/spo/spo-proxy_public.php";
   }
 
-
-/********************* Abfrage Mannschafts-ID **********************/
-
-	public function getCurrentTeamID($id)
-    {
+	// Retrieve all team data for the given ID
+	public static function getCurrentGamesData($id) {
 		// create curl ressource
-        $ch = curl_init();
+		$ch = curl_init();
 
-		self::$url = self::getCurrentUrl()."?cmd=data&lvTypeNext=team&lvIDNext=" . $id;
-        // set url
-        curl_setopt($ch, CURLOPT_URL, self::$url);
+		// set url
+		// club (!) id = 986
+		curl_setopt($ch, CURLOPT_URL, self::getCurrentUrl()."?cmd=data&lvTypeNext=team&lvIDNext=" . $id);
 
-        //return the transfer as a string
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        // $output contains the output string
-        $output = curl_exec($ch);
-
-        // close curl resource to free up system resources
-        curl_close($ch);
-		// Return the result
-		return json_decode($output)[0]->lvIDPathStr;
-    }
-
-
-
-/********************* Abfrage Liga-ID **********************/
-
-	public function getCurrentLeagueID($id)
-    {
-		// create curl ressource
-        $ch = curl_init();
-
-		self::$url = self::getCurrentUrl()."?cmd=data&lvTypeNext=team&lvIDNext=" . $id;
-        // set url
-        curl_setopt($ch, CURLOPT_URL, self::$url);
-
-        //return the transfer as a string
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        // $output contains the output string
-        $output = curl_exec($ch);
-
-        // close curl resource to free up system resources
-        curl_close($ch);
-		// Return the result
-		return json_decode($output)[0]->dataList[0]->gClassID;
-    }
-
-
-
-
-
-/********************* Abfrage Tabelle **********************/
-
-	public function getTable($id)
-	{
-		// create curl ressource
-        $ch = curl_init();
-
-		self::$url = self::getCurrentUrl()."?cmd=data&lvTypeNext=class&subType=table&lvIDNext=" . $id;
-
-        // set url
-        // club (!) id = 986
-        curl_setopt($ch, CURLOPT_URL, self::$url);
-
-        //return the transfer as a string
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
+		//return the transfer as a string
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch,  CURLOPT_ENCODING, 'gzip');
 
-        // $output contains the output string
-        $output = curl_exec($ch);
+		// $output contains the output string
+		$output = curl_exec($ch);
 
-        // close curl resource to free up system resources
-        curl_close($ch);
+		// close curl resource to free up system resources
+		curl_close($ch);
 		// Return the result
-		return json_decode($output)[0];
+		return $output;
+	}
+
+	// Retrieve all table data for the given ID
+	public static function getCurrentTableData($id) {
+		// create curl ressource
+		$ch = curl_init();
+
+		// set url
+		curl_setopt($ch, CURLOPT_URL, self::getCurrentUrl()."?cmd=data&lvTypeNext=class&subType=table&lvIDNext=" . $id);
+
+		//return the transfer as a string
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch,  CURLOPT_ENCODING, 'gzip');
+
+		// $output contains the output string
+		$output = curl_exec($ch);
+
+		// close curl resource to free up system resources
+		curl_close($ch);
+		// Return the result
+		return $output;
 	}
 
 
-
-	// Alias zu getCurrentID(), da getCurrentID() nicht nur die ID, sondern den gesamten Spielplan abruft
-	public static function getGames($id)
-	{
-		return self::getCurrentID($id);
-	}
-
-
-
-
-
-	public static function getPathToCronFile()
-	{
-		return __DIR__ . '/data.json';
-	}
-
-	public static function getSeasonDataFromFile($file)
-	{
-		return json_decode(file_get_contents($file));
-	}
-
-
-
-
-
-
+	// User defined comparison and sort function
 	public static function cmp($a, $b)
 	{
 		return strcmp($a->gDateTS, $b->gDateTS);
 	}
+
+
+	public static function varDump($var)
+  {
+	echo '<pre>';
+	var_dump($var);
+	echo '</pre>';
+	return;
+  }
+
 
 	public static function getTimestamp($game)
 	{
@@ -164,51 +81,31 @@ class ModTvoAktuelletabelleHelper
 	}
 
 
-
-
-    public static function varDump($var)
-    {
-		echo '<pre>';
-		var_dump($var);
-		echo '</pre>';
-		return;
-    }
-
-    public static function get($var)
-    {
-	    return self::$$var;
-    }
-
-    public static function slashAtTheEnd($path)
-    {
-	    if(substr($path, -1) !== '/' && substr($path, -1) != DIRECTORY_SEPARATOR && substr($path, -1) != "\\")
-	    {
-		    $path .= DIRECTORY_SEPARATOR;
-	    }
-	    return $path;
-    }
-
-	public function getIds($idFile)
+	/*
+	 *
+	 * Create current score
+	 *
+	 */
+	public static function score($homegoals, $guestgoals, $homegoals1, $guestgoals1)
 	{
-		// create curl ressource
-        $ch = curl_init();
-
-        // set url
-        // club (!) id = 986
-        curl_setopt($ch, CURLOPT_URL, $idFile);
-
-        //return the transfer as a string
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-		curl_setopt($ch,  CURLOPT_ENCODING, 'gzip');
-
-        // $output contains the output string
-        $output = curl_exec($ch);
-
-        // close curl resource to free up system resources
-        curl_close($ch);
-		// Return the result
-		return json_decode($output);
+		if((empty($homegoals) || empty($guestgoals)) || $homegoals == " " || $guestgoals == " ") // || (empty($homegoals) && empty($guestgoals))
+		{
+			$return = "n. v.";
+		}
+		else
+		{
+			$return = $homegoals . ' : ' . $guestgoals;
+			if((empty($homegoals1) || empty($guestgoals1)) || $homegoals1 == " " || $guestgoals1 == " ")
+			{
+				$return .= " (n. v.)";
+			}
+			else
+			{
+				$return .= ' (' . $homegoals1 . ' : ' . $guestgoals1 . ')';
+			}
+		}
+		return $return;
 	}
+
 
 }
