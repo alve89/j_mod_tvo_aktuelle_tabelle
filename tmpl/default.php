@@ -2,14 +2,14 @@
 // No direct access
 defined('_JEXEC') or die;
 
-require_once(Joomla\CMS\Uri\Uri::root() . 'modules' . DS . $module->module . DS . 'helper.php');
+require_once(JPATH_SITE . '/modules' . DS . $module->module . DS . 'helper.php');
 
 //ModTvoAktuelletabelleHelper::varDump($tableData);
 
 
 echo $params->get('header');
 
-if( $contentToDisplay['league'] ) {
+if( isset($contentToDisplay['league']) && $contentToDisplay['league']) {
 ?>
 <span id="league">
 	<h4><?=$team->teamLeague;?></h4>
@@ -29,11 +29,11 @@ if( $contentToDisplay['lastUpdated'] ) {
 <table class="table_tabelle <?=$params->get('moduleclass_sfx');?>" style="font-size: 12px">
   <tr>
     <?php
-    if( $contentToDisplay['score'] )        { ?><th>Platzierung</th><?php }
-    if( $contentToDisplay['teamname'] )     { ?><th>Mannschaft</th><?php }
-    if( $contentToDisplay['gamesPlayed'] )  { ?><th>Spiele (S/U/N)</th><?php }
-    if( $contentToDisplay['points'] )       { ?><th>Punkte</th><?php }
-    if( $contentToDisplay['goals'] )        { ?><th>Torverhältnis</th><?php }
+    if( isset($contentToDisplay['score']) && $contentToDisplay['score'] )        { ?><th>Platzierung</th><?php }
+    if( isset($contentToDisplay['teamname']) && $contentToDisplay['teamname'] )     { ?><th>Mannschaft</th><?php }
+    if( isset($contentToDisplay['gamesPlayed']) && $contentToDisplay['gamesPlayed'] )  { ?><th>Spiele (S/U/N)</th><?php }
+    if( isset($contentToDisplay['points']) && $contentToDisplay['points'] )       { ?><th>Punkte</th><?php }
+    if( isset($contentToDisplay['goals']) && $contentToDisplay['goals'] )        { ?><th>Torverhältnis</th><?php }
     ?>
   </tr>
 
@@ -44,23 +44,23 @@ if( $contentToDisplay['lastUpdated'] ) {
 			?>
 			<tr style="font-weight: <?= (strpos($team->tabTeamname, 'Oberflockenbach') !== false) ? ('bold') : ('normal');?>">
 				<?php
-				if($contentToDisplay['score']) { ?>
+				if(isset($contentToDisplay['score']) && $contentToDisplay['score']) { ?>
 					<td><?=$team->tabScore;?></td>
 				<?php }
 
-				if($contentToDisplay['teamname']) { ?>
+				if(isset($contentToDisplay['teamname']) && $contentToDisplay['teamname'] ) { ?>
 					<td><?=$team->tabTeamname;?></td>
 				<?php }
 
-				if($contentToDisplay['gamesPlayed']) { ?>
+				if(isset($contentToDisplay['gamesPlayed']) && $contentToDisplay['gamesPlayed']) { ?>
 					<td><?=$team->numWonGames + $team->numEqualGames + $team->numLostGames;?> (<?=$team->numWonGames;?>/<?=$team->numEqualGames;?>/<?=$team->numLostGames;?>)</td>
 				<?php }
 
-				if($contentToDisplay['points']) { ?>
+				if(isset($contentToDisplay['points']) && $contentToDisplay['points']) { ?>
 					<td><?=$team->pointsPlus;?> : <?=$team->pointsMinus;?></td>
 				<?php }
 
-				if($contentToDisplay['goals']) { ?>
+				if(isset($contentToDisplay['goals']) && $contentToDisplay['goals']) { ?>
 					<td><?=$team->numGoalsShot;?> : <?=$team->numGoalsGot;?></td>
 				<?php }
 				?>
