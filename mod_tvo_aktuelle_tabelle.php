@@ -78,30 +78,6 @@ if( !$tablesNotFound ) {
 
 // ####################################### Prüfe alle Voraussetzungen und starte Rendering #######################################
 
-// Prüfe, ob die Saison noch läuft oder bereits vorüber ist
-if( $params->get('seasonStatusSelector') == 1 ) {
-  // Prüfe ob in der Modulkonfiguration Spalten zum Anzeigen ausgewählt wurden
-  if( $params->get('columns') == NULL ) {
-    // In der Modulkonfiguration wurde nichts angehakt
-    $application->enqueueMessage(JText::_('MOD_TVO_AKTUELLE_TABELLE_NO_COLUMNS_CHOSEN'), 'error');
-  }
 
-  if( $tablesNotFound ) {
-    $application->enqueueMessage(JText::_('MOD_TVO_AKTUELLE_TABELLE_TABLES_NOT_FOUND'), 'error');
-  }
-
-  // Erstelle Array mit allen anzuzeigenden Spalten
-  $contentToDisplay = $params->get('columns');
-
-  foreach($contentToDisplay as $key => $value)
-	{
-		$contentToDisplay[$value] = true;
-		unset($contentToDisplay[$key]);
-	}
-
-	// Render output
-	require JModuleHelper::getLayoutPath('mod_tvo_aktuelle_tabelle', $params->get('layout'));
-}
-else {
-	echo 'Die Saison ist vorbei';
-}
+// Render output
+require JModuleHelper::getLayoutPath('mod_tvo_aktuelle_tabelle', $params->get('layout'));
